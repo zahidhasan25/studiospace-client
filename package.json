@@ -1,0 +1,1 @@
+{"dependencies":{"jspdf":"^2.5.1","next":"14.2.18","react":"18.3.1","react-dom":"18.3.1","sonner":"^1.5.0","swiper":"^11.1.14"},"name":"studiospace-client","private":true,"scripts":{"build":"next build","dev":"next dev","start":"next start"},"version":"1.0.0"}
