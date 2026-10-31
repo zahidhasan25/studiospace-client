@@ -9,7 +9,7 @@ StudioSpace is a peer-to-peer marketplace where creators discover, book and host
 - **Discover studios:** Search, filter by category and browse featured studios fetched live from MongoDB via the Express API.
 - **Full studio CRUD:** Authenticated hosts can add, view, update and delete their own listings, with a custom confirmation modal for deletes.
 - **Booking system:** Date and time booking modal with automatic hour and price calculation, Pending status, cancellation for pending bookings, and PDF invoice download for confirmed bookings.
-- **Authentication:** Email/password login and registration with password validation, Google login via the server, and JWT stored in an HTTPOnly cookie by the server.
+- **Authentication:** BetterAuth (MongoDB adapter) email/password login and registration with password validation, Google login via BetterAuth social provider, and a session stored in an HTTPOnly cookie (`better-auth.session_token`) by the server.
 - **Wishlist:** Logged-in users can save studios with the heart icon on any studio card and manage them on the wishlist page.
 - **Theme customization:** One-click light/dark theme toggle in the navbar, persisted in localStorage across reloads.
 - **Polished UX:** Sonner toasts for every auth, CRUD and booking action, skeleton loaders, friendly empty states, a custom 404 page, and a responsive layout for mobile, tablet and desktop.
@@ -19,7 +19,7 @@ StudioSpace is a peer-to-peer marketplace where creators discover, book and host
 - Next.js 14 (App Router, JavaScript), React 18
 - Plain CSS in `app/globals.css` (light/dark theme via `data-theme`)
 - Swiper for hero and gallery sliders, Sonner for toasts, jsPDF for booking invoices
-- Express.js + MongoDB backend (separate repository) — all data calls use `credentials: "include"` so the server's HTTPOnly JWT cookie is sent
+- Express.js + MongoDB backend with BetterAuth (separate repository) — all data calls use `credentials: "include"` so the server's HTTPOnly BetterAuth session cookie is sent. Google callback is `<SERVER_URL>/api/auth/callback/google` (update it in Google Cloud Console; the old `/api/auth/google/callback` no longer works).
 
 ## Local Setup
 
@@ -48,7 +48,7 @@ StudioSpace is a peer-to-peer marketplace where creators discover, book and host
 - Email: `examiner@studiospace.test`
 - Password: `Examiner123`
 
-Note: these credentials must exist in the server database (seeded by the server team). If the account does not exist yet, register a new account from the Register page, or use Google login.
+Note: these credentials are created on server startup through BetterAuth's sign-up API (see the server README). If the account does not exist yet, register a new account from the Register page, or use Google login.
 
 ## Routes
 

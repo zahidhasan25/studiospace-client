@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { API_URL, apiFetch } from "@/lib/api";
+import { apiFetch } from "@/lib/api";
 
 function validatePassword(password) {
   if (password.length < 6) return "Password must be at least 6 characters long";
@@ -21,6 +21,20 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [busy, setBusy] = useState(false);
+
+  // Google via BetterAuth's native social endpoint (see login page).
+  const googleLogin = async () => {
+    try {
+      const data = await apiFetch("/api/auth/sign-in/social", {
+        method: "POST",
+        body: JSON.stringify({ provider: "google", callbackURL: window.location.origin }),
+      });
+      if (data && data.url) window.location.href = data.url;
+      else toast.error("Google login failed. Please try again.");
+    } catch (err) {
+      toast.error(err.message || "Google login is not configured on the server.");
+    }
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -75,7 +89,7 @@ export default function RegisterPage() {
           <button className="btn" type="submit" disabled={busy} style={{ width: "100%" }}>{busy ? "Creating account…" : "Register"}</button>
         </form>
         <div className="divider">or continue with</div>
-        <button className="google-btn" type="button" onClick={() => { window.location.href = `${API_URL}/api/auth/google`; }}>
+        <button className="google-btn" type="button" onClick={googleLogin}>
           Continue with Google
         </button>
         <p style={{ textAlign: "center", marginTop: 18 }}>

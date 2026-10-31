@@ -1,5 +1,13 @@
 "use client";
 
+// Auth contract (BetterAuth branch): /api/auth/login, /api/auth/logout and
+// /api/auth/me are server compatibility shims over BetterAuth (see the
+// server's auth.js), so these URLs are intentionally unchanged from the
+// old custom-JWT version. The session is now BetterAuth's httpOnly
+// "better-auth.session_token" cookie, verified server-side via
+// BetterAuth's getSession — not a custom JWT. Login/register password
+// rules, toasts, redirects, PrivateRoute reload behaviour, wishlist
+// refresh and the theme toggle are all preserved by that contract.
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { apiFetch, studioIdOf } from "@/lib/api";
 
