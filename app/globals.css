@@ -112,6 +112,10 @@ h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); letter-spacing: -0.02em; }
 @keyframes spin { to { transform: rotate(360deg); } }
 /* Details */
 .detail-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: start; }
+/* Swiper inside a grid column must be allowed to shrink, otherwise its
+   intrinsic slide width pushes the booking card off-screen to the right. */
+.detail-grid > * { min-width: 0; }
+.detail-grid .swiper { width: 100%; max-width: 100%; }
 @media (max-width: 900px) { .detail-grid { grid-template-columns: 1fr; } }
 .detail-img { width: 100%; height: 420px; object-fit: cover; border-radius: 20px; }
 .spec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 18px 0; }
