@@ -78,10 +78,14 @@ function Content() {
                 <b>{b.studioTitle}</b>
                 <div className="muted">{b.date} · {b.startTime} – {b.endTime} · {b.hours} hour(s)</div>
                 <div>Total: <b>${b.totalPrice ?? ""}</b></div>
+                {b.canConfirm && b.userEmail && <div className="muted">Booked by: {b.userEmail}</div>}
               </div>
               <span className={`status status-${b.status}`}>{b.status}</span>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {b.status === "Pending" && (
+                {b.status === "Pending" && b.canConfirm && (
+                  <button className="btn btn-sm" onClick={() => act(b, "confirm")}>Confirm Booking</button>
+                )}
+                {b.status === "Pending" && b.canCancel !== false && (
                   <button className="btn btn-outline btn-sm" onClick={() => act(b, "cancel")}>Cancel Booking</button>
                 )}
                 {b.status === "Confirmed" && (
